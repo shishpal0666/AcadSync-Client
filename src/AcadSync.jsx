@@ -1,10 +1,10 @@
-import logo from "../assets/logo-transparent-png.png";
+import logo from "./assets/logo-transparent-png.png";
 
-function Welcome(props){
+function AcadSync(props){
     const date = new Date();
     const currYear = date.getFullYear();
     const handelLogin = ()=>{
-        window.location.href = props.loginurl;
+        window.location.href = props.LoginUrl;
     }
 
     return (
@@ -22,4 +22,4 @@ function Welcome(props){
 }
 
 
-export default Welcome;
+export default AcadSync;

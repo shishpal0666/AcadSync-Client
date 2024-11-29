@@ -1,15 +1,11 @@
 
 
-function Header(){
+function Header(props){
     return (
         <nav>
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
+            <button onClick={props.logout}>Logout</button>
         </nav>
     )
 }
+
+export default Header;
