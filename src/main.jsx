@@ -1,11 +1,13 @@
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import './index.css';
+import App from './App.jsx';
 
-
-function Main(props){
-    return(
-        <main>
-            <h1>Welcome, {props.userCred.displayName}</h1>
-        </main>
-    )
-}
-
-export default Main;
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>,
+)

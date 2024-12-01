@@ -1,4 +1,5 @@
 import logo from "./assets/logo-transparent-png.png";
+import Footer from "./Layout/Footer";
 
 function AcadSync(props){
     const date = new Date();
@@ -16,7 +17,7 @@ function AcadSync(props){
                 <button onClick={handelLogin} >Google Login</button>
             </div>
             <hr></hr>
-            <footer>© Copyright {currYear} AcadSync</footer>
+            <Footer/>
         </>
     )
 }
