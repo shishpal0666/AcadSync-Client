@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
+import { io } from "socket.io-client";
 import AcadSync from "./AcadSync";
 import Header from "./Layout/Header";
 import Footer from "./Layout/Footer";
 import Home from "./Layout/Home";
+import Loading from "./Loading";
 import Academics from "./components/Academics/Academics";
 import CGPACalculator from "./components/CGPACalculator/CGPACalculator";
 import ExternalCources from "./components/ExternalCourses/ExternalCources";
@@ -15,15 +17,13 @@ import ResumeBuilder from "./components/ResumeBuilder/ResumeBuilder";
 import Skills from "./components/Skills/Skills";
 import TimeTable from "./components/TimeTable/TimeTable";
 import WorkExperience from "./components/WorkExperience/WorkExperience";
+import ProfileEdit from "./components/Profile/ProfileEdit";
 
 
 function Auth({ loggedin, OAuthUrl, handleLogout, userCredentials }) {
-
   if (loggedin === null) {
     return (
-      <>
-        <h1>Loading...</h1>
-      </>
+      <Loading/>
     )
   }
 
@@ -64,29 +64,48 @@ function ProtectedRoutes({ loggedin, children, handleLogout }) {
 function App() {
   const [loggedin, setLoggedin] = useState(null);
   const [userCredentials, setUserCredentials] = useState({});
-  const OAuthUrl = '/api/auth/google';
+  const OAuthUrl = 'api/auth/google';
 
   useEffect(() => {
-    fetch('/api/loggedin', { credentials: 'include' }).then(
-      (response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Failed to fetch');
+    const fetchUser = () => {
+
+      fetch('/api/loggedin', { credentials: 'include' }).then(
+        (response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to fetch');
+          }
         }
-      }
-    ).then(
-      (data) => {
-        setUserCredentials(data);
-        setLoggedin(true);
+      ).then(
+        (data) => {
+          setUserCredentials(data);
+          setLoggedin(true);
 
-      }
-    ).catch(
-      (err) => {
-        console.log('Error fetching user data:', err);
-        setLoggedin(false);
+        }
+      ).catch(
+        (err) => {
+          // console.log('Error fetching user data:', err);
+          setLoggedin(false);
+        }
+      );
+    };
 
-      })
+    fetchUser();
+
+    const socket = io('/  ', {
+      withCredentials: true,
+    });
+
+    socket.on('profile-updated', () => {
+      console.log("Profile-Updated fetching data...");
+      fetchUser();
+    });
+
+    return () => {
+      socket.disconnect();
+    }
+
   }, []);
 
 
@@ -106,8 +125,6 @@ function App() {
     }
     );
   };
-
-
 
 
   return (
@@ -179,7 +196,13 @@ function App() {
 
         <Route path="/profile" element={
           <ProtectedRoutes handleLogout={handleLogout} loggedin={loggedin} >
-            <Profile loggedin={loggedin} />
+            <Profile userCred={userCredentials} loggedin={loggedin} />
+          </ProtectedRoutes>
+        } />
+
+        <Route path="/profile/edit" element={
+          <ProtectedRoutes handleLogout={handleLogout} loggedin={loggedin} >
+            <ProfileEdit userCred={userCredentials} loggedin={loggedin} />
           </ProtectedRoutes>
         } />
 

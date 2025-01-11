@@ -1,8 +1,84 @@
-*{
-    padding: 4px;
-    margin: 4px;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+.logo_icon {
+  width: 100%;
+  height: auto;
+  max-height: 18vh;
+}
+
+
+body {
+  background-color: #415A77;
+  color: #e0e1dd;
+}
+
+
+.text-center h1,
+.text-center p {
+  color: #e0e1dd;
+}
+
+
+.btn-primary {
+  background-color: #0D1B2A;
+  border-color: #778da9;
+  color: #e0e1dd;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1b263b;
+  color: #e0e1dd;
+}
+
+
+.lead {
+  color: #e0e1dd;
+}
+
+
+.container {
+  background-color: #415A77;
+  border-radius: 8px;
+}
+
+
+.img-fluid {
+  border: 2px solid #415a77;
+  border-radius: 8px;
+}
+
+
+footer {
+  background-color: #415A77;
+  color: #e0e1dd;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 #profileImage{
-    border-radius: 50%;
+  height: 100px;
 }
